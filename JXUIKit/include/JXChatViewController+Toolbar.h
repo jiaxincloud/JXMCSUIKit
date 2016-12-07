@@ -4,14 +4,16 @@
 
 #import "JXChatViewController.h"
 
-@interface JXChatViewController (Toolbar)<
-        JXMessageToolbarDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface JXChatViewController (Toolbar)<JXMessageToolbarDelegate, UIImagePickerControllerDelegate,
+                                          UINavigationControllerDelegate>
 
-@property (nonatomic, strong, readonly)JXVoiceMessageRecorder *voiceRecorder;
+@property(nonatomic, strong, readonly) JXVoiceMessageRecorder *voiceRecorder;
 
 - (void)toolBarAddPhotoItemWithTitle:(NSString *)title andImage:(UIImage *)image;
 
 - (void)toolbarAddCameraItemWithTitle:(NSString *)title andImage:(UIImage *)image;
+
+- (void)toolbarAddVideoItemWithTitle:(NSString *)title andImage:(UIImage *)image;
 
 - (void)toolbarAddAudioCallItemWithTitle:(NSString *)title andImage:(UIImage *)image;
 

@@ -20,6 +20,12 @@
 
 #ifdef JX_AGENT
 #import "JXAgentClient+Helper.h"
+#ifndef sClient
+#define sClient [JXAgentClient sharedInstance]
+#endif
 #else
 #import "JXIMClient+Helper.h"
+#ifndef sClient
+#define sClient [JXIMClient sharedInstance]
+#endif
 #endif

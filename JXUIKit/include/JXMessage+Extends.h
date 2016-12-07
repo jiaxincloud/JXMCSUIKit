@@ -27,6 +27,8 @@
 
 - (NSString *)fileSizeDes;
 
+- (NSString *)durationDes;
+
 - (NSMutableAttributedString *)attributedText;
 
 - (NSArray<NSTextCheckingResult *> *)urlMatches;

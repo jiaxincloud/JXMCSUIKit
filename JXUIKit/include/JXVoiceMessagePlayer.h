@@ -23,7 +23,6 @@
 + (double)durationForAudioFile:(NSString *)filePath;
 
 + (BOOL)convertWAVE:(NSString *)strWavePath ToAmr:(NSString *)toAmrPath;
-+ (BOOL)convertMovToMP4:(NSURL *)url ToURL:(NSURL *)toUrl;
 
 - (void)addVoiceMessagePlayerObsever:(id<JXVoiceMessagePlayerDelegate>)observer;
 - (void)removeVoiceMessagePlayerObsever:(id<JXVoiceMessagePlayerDelegate>)observer;

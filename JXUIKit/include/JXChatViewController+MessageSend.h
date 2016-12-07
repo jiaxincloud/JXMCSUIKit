@@ -33,6 +33,8 @@
                          content:(NSString *)content
                              url:(NSString *)url;
 
+- (void)sendVideoMessageWithLocalPah:(NSString *)localPath thumbPath:(NSString *)videoThumb duration:(NSInteger)duration ;
+
 - (void)sendForeseeMessage:(NSString *)title;
 
 - (void)resendMessage:(JXMessage *)message;

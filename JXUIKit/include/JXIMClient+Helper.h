@@ -2,6 +2,7 @@
 //  JXIMClient+Helper.h
 //
 
+#import <UserNotifications/UserNotifications.h>
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
@@ -9,7 +10,7 @@
 #import "JXClientDelegate.h"
 #import "JXMacros.h"
 
-@interface JXIMClient (Helper)
+@interface JXIMClient (Helper) <UNUserNotificationCenterDelegate>
 
 #pragma mark - init client
 

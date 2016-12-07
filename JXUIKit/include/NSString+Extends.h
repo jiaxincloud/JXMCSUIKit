@@ -13,6 +13,8 @@
 
 - (NSString *)stringByReplaceHTMLTag:(NSString *)tag withString:(NSString *)replaced;
 
+- (NSString *)strippedContent;
+
 + (NSString *)convertFaceCodeToEmojiFace:(NSString *)origalstr;
 
 + (NSString *)timeStringFromTimeInterval:(NSTimeInterval)timeInterval;

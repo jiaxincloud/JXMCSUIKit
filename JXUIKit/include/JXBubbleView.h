@@ -65,13 +65,17 @@ typedef void (^JXRichCellLinkBtnTapBlock)();
 @property(nonatomic, copy) JXRichCellLinkBtnTapBlock richCellLinkBtnTapBlock;
 
 // FileMessageBubble
-@property (nonatomic, strong) UILabel *fileNameLabel;
-@property (nonatomic, strong) UILabel *fileSizeLabel;
-@property (nonatomic, strong) UIImageView *fileIconView;
-@property (nonatomic, strong) UIProgressView *fileProgressView;
-@property (nonatomic, strong) UILabel *precentLabel;
-@property (nonatomic, copy) void (^fileIconViewTapBlock)();
+@property(nonatomic, strong) UILabel *fileNameLabel;
+@property(nonatomic, strong) UILabel *fileSizeLabel;
+@property(nonatomic, strong) UIImageView *fileIconView;
+@property(nonatomic, strong) UIProgressView *fileProgressView;
+@property(nonatomic, strong) UILabel *precentLabel;
+@property(nonatomic, copy) void (^fileIconViewTapBlock)();
 
+// VideoMeesageBubble
+@property(nonatomic, strong) UIImageView *videoLogoView;
+@property(nonatomic, strong) UILabel *videoSizeLabel;
+@property(nonatomic, strong) UILabel *durationLabel;
 
 - (instancetype)initWithMargin:(UIEdgeInsets)margin isSender:(BOOL)isSender;
 

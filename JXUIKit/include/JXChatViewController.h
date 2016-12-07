@@ -3,23 +3,23 @@
 //
 
 #import "JXBaseViewController.h"
-#import "JXLocationViewController.h"
 #import "JXImageViewController.h"
+#import "JXLocationViewController.h"
 
 #import "JXCommonMessageCell.h"
 #import "JXMessageTimeCell.h"
 #import "JXMessageToolbar.h"
 
+#import "JXMessageFileDownloader.h"
 #import "JXVoiceMessagePlayer.h"
 #import "JXVoiceMessageRecorder.h"
-#import "JXMessageFileDownloader.h"
 
-#import "JXSDKHelper.h"
 #import "JXActionView.h"
+#import "JXSDKHelper.h"
 
 @class JXChatViewController;
 
-@protocol JXChatViewControllerDelegate <NSObject>
+@protocol JXChatViewControllerDelegate<NSObject>
 
 @optional
 
@@ -52,7 +52,7 @@
  *  触发长按手势
  */
 - (BOOL)chatViewController:(JXChatViewController *)sender
-   didLongPressRowAtIndexPath:(NSIndexPath *)indexPath;
+didLongPressRowAtIndexPath:(NSIndexPath *)indexPath;
 
 /**
   *  底部录音功能按钮
@@ -78,8 +78,8 @@
 @property(nonatomic, strong) JXMessageToolbar *messageToolbar;
 
 @property(nonatomic, assign) NSTimeInterval lastMessageTimestamp;
-@property(nonatomic, assign) NSInteger messageCountOfPage;    //default 20
-@property(nonatomic, assign) CGFloat timeCellHeight;          //时间分割cell的高度 default 30
+@property(nonatomic, assign) NSInteger messageCountOfPage;    // default 20
+@property(nonatomic, assign) CGFloat timeCellHeight;    //时间分割cell的高度 default 30
 
 @property(nonatomic, strong) NSIndexPath *menuIndexPath;
 

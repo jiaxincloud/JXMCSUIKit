@@ -78,7 +78,17 @@
  */
 @property(nonatomic) UIView *recordView;
 
+
+/**
+ *  是否隐藏录音切换按钮
+ */
 @property (nonatomic, assign) BOOL isHiddenRecordBtn;
+
+
+/**
+ *  是否隐藏表情按钮
+ */
+@property (nonatomic, assign) BOOL isHiddenEmojiBtn;
 
 /**
  *  inputview文本
@@ -127,6 +137,11 @@
  *  moreView添加拍照功能
  */
 - (void)moreViewAddCameraItemWithTitle:(NSString *)title andImage:(UIImage *)image;
+
+/**
+ *  moreView添加拍摄视频功能
+ */
+- (void)moreViewAddVideoItemWithTitle:(NSString *)title andImage:(UIImage *)image;
 
 /**
  *  moreView添加发送位置功能
@@ -236,15 +251,21 @@
  */
 - (void)didSelectedCameraAction:(UIView *)moreView;
 
+
+/**
+ *  moreView选择小视频
+ */
+- (void)didSelectedVideoAction:(UIView *)moreView;
+
 /**
  *  moreView选择语音通话
  */
-- (void)didSelectedAudioAction:(UIView *)moreView;
+- (void)didSelectedAudioCallAction:(UIView *)moreView;
 
 /**
  *  moreView选择视频通话
  */
-- (void)didSelectedVideoAction:(UIView *)moreView;
+- (void)didSelectedVideoCallAction:(UIView *)moreView;
 
 /**
  *  moreView选择位置
