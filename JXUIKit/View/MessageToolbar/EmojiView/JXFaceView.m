@@ -69,6 +69,7 @@
 }
 
 - (void)_setupButtonScrollView {
+    [_bottomScrollView removeAllSubviews];
     NSInteger number = [_emotionManagers count];
     if (number <= 0) {
         return;
@@ -80,8 +81,8 @@
                            CGRectGetWidth(_bottomScrollView.frame) / (kButtomNum - 1),
                            CGRectGetHeight(_bottomScrollView.frame));
         JXEmotionManager *emotionManager = [_emotionManagers objectAtIndex:i];
-        if (emotionManager.emotionType == EMEmotionDefault) {
-            [defaultButton setTitle:[emotionManager.emotions objectAtIndex:i]
+        if (emotionManager.emotionType == EMEmotionEmoji) {
+            [defaultButton setTitle:[emotionManager.emotions objectAtIndex:0]
                            forState:UIControlStateNormal];
         } else {
             if ([emotionManager.emotions count] > 0) {

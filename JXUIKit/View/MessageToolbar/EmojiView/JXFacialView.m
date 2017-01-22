@@ -13,6 +13,7 @@
 @property(nonatomic, strong) UIScrollView *scrollview;
 @property(nonatomic, strong) UIPageControl *pageControl;
 @property(nonatomic, strong) NSArray *expressions;
+@property(nonatomic, strong) NSArray *defaultExpressions;
 @end
 
 @implementation JXFacialView
@@ -117,14 +118,23 @@
                         [button addTarget:self
                                           action:@selector(sendPngAction:)
                                 forControlEvents:UIControlEventTouchUpInside];
-                        button.tag = index;
+                        button.tag = index - i;
+                    } else if (emotionManager.emotionType == EMEmotionDefault){
+                        [button setImage:JXChatImage([_faces objectAtIndex:index])
+                                forState:UIControlStateNormal];
+                        button.imageView.contentMode = UIViewContentModeScaleAspectFit;
+                        [button setImageEdgeInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
+                        [button addTarget:self
+                                   action:@selector(selected:)
+                         forControlEvents:UIControlEventTouchUpInside];
+                        button.tag = index - i;
                     } else {
                         [button setTitle:[_faces objectAtIndex:index]
                                 forState:UIControlStateNormal];
                         [button addTarget:self
-                                          action:@selector(selected:)
+                                          action:@selector(selectedEmoji:)
                                 forControlEvents:UIControlEventTouchUpInside];
-                        button.tag = index;
+                        button.tag = index - i;
                     }
 
                     [_scrollview addSubview:button];
@@ -151,12 +161,24 @@
     }
 }
 
+- (void)selectedEmoji:(UIButton *)bt {
+    if (bt.tag == 10000 && _delegate) {
+        [_delegate deleteSelected:nil];
+    } else {
+        NSString *str = [_faces objectAtIndex:bt.tag];
+        if (_delegate) {
+            [_delegate selectedFacialView:str];
+        }
+    }
+}
+
 - (void)selected:(UIButton *)bt {
     if (bt.tag == 10000 && _delegate) {
         [_delegate deleteSelected:nil];
     } else {
         NSString *str = [_faces objectAtIndex:bt.tag];
         if (_delegate) {
+            str = self.defaultExpressions[bt.tag][@"chs"];
             [_delegate selectedFacialView:str];
         }
     }
@@ -195,6 +217,15 @@
         _expressions = [[NSArray alloc] initWithContentsOfFile:file];
     }
     return _expressions;
+}
+
+- (NSArray *)defaultExpressions {
+    if (_defaultExpressions == nil) {
+        NSString *file = [[NSBundle mainBundle]
+                            pathForResource:@"JXUIResources.bundle/jiaxinFaceList.plist" ofType:nil];
+        _defaultExpressions = [[NSArray alloc] initWithContentsOfFile:file];
+    }
+    return _defaultExpressions;
 }
 
 #pragma mark - UIScrollViewDelegate

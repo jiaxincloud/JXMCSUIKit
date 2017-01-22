@@ -13,12 +13,13 @@
 
 + (NSAttributedString *)attStringFromTextForInputView:(NSString *)aInputText;
 
-
 + (NSMutableString *)mutableStringWithText:(NSString *)str;
 
 + (NSAttributedString *)attributedEmojiStringWithText:(NSString *)str;
 
 + (NSArray *)loadExpressions;
+
++ (NSArray *)loadDefaultEmoticon;
 
 @end
 

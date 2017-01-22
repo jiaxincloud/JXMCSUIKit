@@ -117,15 +117,17 @@
     return self;
 }
 
-- (void)willMoveToSuperview:(UIView *)newSuperview {
-    [self _setupSubviews];
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardWillChangeFrameNotification
+                                                  object:nil];
+    _delegate = nil;
+    _inputTextView.delegate = nil;
+    _inputTextView = nil;
 }
 
-- (NSArray *)wechatExpressions {
-    if (_wechatExpressions == nil) {
-        _wechatExpressions = [JXEmotionEscape loadExpressions];
-    }
-    return _wechatExpressions;
+- (void)willMoveToSuperview:(UIView *)newSuperview {
+    [self _setupSubviews];
 }
 
 #pragma mark - setup subviews
@@ -253,13 +255,39 @@
     [self setInputViewRightItems:items];
 }
 
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIKeyboardWillChangeFrameNotification
-                                                  object:nil];
-    _delegate = nil;
-    _inputTextView.delegate = nil;
-    _inputTextView = nil;
+- (void)setupFaceView {
+    NSMutableArray *emotions = [NSMutableArray array];
+    if (self.isShowWechatBar) {
+        NSInteger count = [JXEmotionEscape loadExpressions].count;
+        NSMutableArray *faces = [NSMutableArray array];
+        for (int i = 1; i <= count; i++) {
+            NSString *imageName = [NSString stringWithFormat:@"wechat_%d", i];
+            [faces addObject:imageName];
+        }
+        JXEmotionManager *emotionManager = [[JXEmotionManager alloc] initWithType:EMEmotionPng
+                                                                       emotionRow:3
+                                                                       emotionCol:7
+                                                                         emotions:faces];
+        JXEmotionManager *emojiManager = [[JXEmotionManager alloc] initWithType:EMEmotionEmoji
+                                                                     emotionRow:3
+                                                                     emotionCol:7
+                                                                       emotions:[JXEmoji allEmoji]];
+        [emotions addObject:emotionManager];
+        [emotions addObject:emojiManager];
+    } else {
+        NSInteger count = [JXEmotionEscape loadDefaultEmoticon].count;
+        NSMutableArray *faces = [NSMutableArray array];
+        for (int i = 0; i < count; i++) {
+            NSString *imageName = [NSString stringWithFormat:@"emoticon_%d", i];
+            [faces addObject:imageName];
+        }
+        JXEmotionManager *emotionManager = [[JXEmotionManager alloc] initWithType:EMEmotionDefault
+                                                                       emotionRow:3
+                                                                       emotionCol:7
+                                                                         emotions:faces];
+        [emotions addObject:emotionManager];
+    }
+    [(JXFaceView *)_faceView setEmotionManagers:emotions];
 }
 
 - (BOOL)resignFirstResponder {
@@ -294,31 +322,20 @@
         _faceView.backgroundColor = JXColorWithRGB(240, 242, 247);
         _faceView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
         //        self.isShowWechatBar = [JXUserDefault boolForKey:kShowWechatFaceBar];
-        JXEmotionManager *emotionManager;
-        if (self.isShowWechatBar) {
-            NSMutableArray *faces = [NSMutableArray array];
-            for (int i = 1; i <= 100; i++) {
-                NSString *imageName = [NSString stringWithFormat:@"wechat_%d", i];
-                [faces addObject:imageName];
-            }
-            emotionManager = [[JXEmotionManager alloc] initWithType:EMEmotionPng
-                                                         emotionRow:3
-                                                         emotionCol:7
-                                                           emotions:faces];
-
-        } else {
-            emotionManager = [[JXEmotionManager alloc] initWithType:EMEmotionDefault
-                                                         emotionRow:3
-                                                         emotionCol:7
-                                                           emotions:[JXEmoji allEmoji]];
-        }
-        [(JXFaceView *)_faceView setEmotionManagers:@[ emotionManager ]];
+        [self setupFaceView];
     }
     return _faceView;
 }
 
 - (NSString *)text {
     return self.inputTextView.text.copy;
+}
+
+- (NSArray *)wechatExpressions {
+    if (_wechatExpressions == nil) {
+        _wechatExpressions = [JXEmotionEscape loadExpressions];
+    }
+    return _wechatExpressions;
 }
 
 #pragma mark - setter
@@ -472,25 +489,7 @@
 
 - (void)setIsShowWechatBar:(BOOL)isShowWechatBar {
     _isShowWechatBar = isShowWechatBar;
-    JXEmotionManager *emotionManager;
-    if (self.isShowWechatBar) {
-        NSMutableArray *faces = [NSMutableArray array];
-        for (int i = 1; i <= 100; i++) {
-            NSString *imageName = [NSString stringWithFormat:@"wechat_%d", i];
-            [faces addObject:imageName];
-        }
-        emotionManager = [[JXEmotionManager alloc] initWithType:EMEmotionPng
-                                                     emotionRow:3
-                                                     emotionCol:7
-                                                       emotions:faces];
-
-    } else {
-        emotionManager = [[JXEmotionManager alloc] initWithType:EMEmotionDefault
-                                                     emotionRow:3
-                                                     emotionCol:7
-                                                       emotions:[JXEmoji allEmoji]];
-    }
-    [(JXFaceView *)self.faceView setEmotionManagers:@[ emotionManager ]];
+    [self setupFaceView];
 }
 
 - (void)setBackgroundImage:(UIImage *)backgroundImage {
@@ -644,7 +643,6 @@
             [self.delegate didSendText:attStr];    // song
             self.inputTextView.text = @"";
             [self _willShowInputTextViewToHeight:[self _getTextViewContentH:self.inputTextView]];
-            ;
         }
 
         return NO;
@@ -725,7 +723,6 @@
                 self.inputTextView.text = @"";
                 [self _willShowInputTextViewToHeight:
                                 [self _getTextViewContentH:self.inputTextView]];
-                ;
             }
         }
     }

@@ -36,13 +36,23 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self setupRecorder];
-    [_recorder startSession];
+//    if (IOSVersion >= 8.0) {
+        [self setupRecorder];
+        [_recorder startSession];
+//    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self.recorder finishCapture];
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+//    if (IOSVersion < 8.0) {
+//        [self setupRecorder];
+//        [_recorder startSession];
+//    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -325,6 +335,9 @@
         _preview = [[UIView alloc] init];
         _preview.translatesAutoresizingMaskIntoConstraints = NO;
         _preview.backgroundColor = [UIColor blackColor];
+        // 针对iOS7，需要提前给大小，否则会出现黑屏
+        CGSize size = [UIScreen mainScreen].bounds.size;
+        _preview.size = CGSizeMake(size.width, size.height - 100);
     }
     return _preview;
 }

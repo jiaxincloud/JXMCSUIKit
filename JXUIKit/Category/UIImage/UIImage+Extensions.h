@@ -24,4 +24,12 @@
  */
 - (UIImage *)fixOrientation;
 
+
+/**
+ 获取图片的主色调
+
+ @return 图片的主色调
+ */
+- (UIColor*)mostColor;
+
 @end

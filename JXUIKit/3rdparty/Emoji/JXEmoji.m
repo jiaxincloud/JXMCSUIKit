@@ -39,6 +39,28 @@
 
 + (NSArray *)allEmoticons {
     NSMutableArray *array = [NSMutableArray new];
+    NSMutableArray *localAry = [[NSMutableArray alloc] initWithObjects:
+                           @"😄",
+                           @"😷",
+                           @"😂",
+                           @"😝",
+                           @"😲",
+                           @"😳",
+                           @"😱",
+                           @"😔",
+                           @"😉",
+                           @"😌",
+                           @"😒",
+                           @"😈",
+                           @"👻",
+                           @"💝",
+                           @"🙏",
+                           @"💪",
+                           @"💰",
+                           @"🎂",
+                           @"🎉",
+                           @"🎁", nil];
+    /*
     NSMutableArray * localAry = [[NSMutableArray alloc] initWithObjects:
                                  [JXEmoji emojiWithCode:0x1F60a],
                                  [JXEmoji emojiWithCode:0x1F603],
@@ -75,6 +97,8 @@
                                  [JXEmoji emojiWithCode:0x1F339],
                                  [JXEmoji emojiWithCode:0x1F342],
                                  [JXEmoji emojiWithCode:0x1F44d],
+     nil];
+     */
 
                                   /*[Emoji emojiWithCode:0x1F602],
                                   [Emoji emojiWithCode:0x1F603],
@@ -110,7 +134,6 @@
                                   [Emoji emojiWithCode:0x1F302],
                                   [Emoji emojiWithCode:0x1F319],
                                   [Emoji emojiWithCode:0x1F31f],*/
-                                 nil];
     [array addObjectsFromArray:localAry];
     //    for (int i=0x1F600; i<=0x1F64F; i++) {
     //        if (i < 0x1F641 || i > 0x1F644) {

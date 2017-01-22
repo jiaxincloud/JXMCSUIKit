@@ -4,7 +4,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSUInteger, EMEmotionType) { EMEmotionDefault = 0, EMEmotionPng, EMEmotionGif };
+typedef NS_ENUM(NSUInteger, EMEmotionType) { EMEmotionDefault = 0, EMEmotionPng, EMEmotionGif, EMEmotionEmoji };
 
 @interface JXEmotionManager : NSObject
 

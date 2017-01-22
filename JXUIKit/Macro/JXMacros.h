@@ -33,6 +33,7 @@
 #define WS(p) __weak __typeof(&*self) p = self;
 #define WEAKSELF typeof(self) __weak weakSelf = self;
 #define STRONGSELF typeof(weakSelf) __strong strongSelf = weakSelf;
+#define DEPRECATED(description) __attribute__((deprecated(description)))
 
 #define IOSVersion [[[UIDevice currentDevice] systemVersion] floatValue]
 #define AppBundleIdentifier [[NSBundle mainBundle] bundleIdentifier]

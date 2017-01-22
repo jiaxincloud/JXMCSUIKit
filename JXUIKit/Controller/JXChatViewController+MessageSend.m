@@ -37,7 +37,8 @@
     JXMessage *message = [[JXMessage alloc] initWithConversation:self.conversation];
     switch (type) {
         case JXMessageTypeText: {
-            [message setTextContent:[NSString convertToCustomEmoticons:text]];
+//            [message setTextContent:[NSString convertToCustomEmoticons:text]];
+            [message setTextContent:text];
         } break;
         case JXMessageTypeImage: {
             [message setImageContent:UIImagePNGRepresentation(image) compressionRate:1.0];

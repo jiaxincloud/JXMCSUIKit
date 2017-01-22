@@ -141,8 +141,23 @@
     return [[NSArray alloc] initWithContentsOfFile:file];
 }
 
++ (NSArray *)loadDefaultEmoticon {
+    NSString *file = [[NSBundle mainBundle]
+                        pathForResource:@"JXUIResources.bundle/jiaxinFaceList.plist" ofType:nil];
+    return [[NSArray alloc] initWithContentsOfFile:file];
+}
+
++ (NSArray *)loadAllExpressions {
+    NSMutableArray *array = [NSMutableArray array];
+    NSArray *wechatEmoticons = [self loadExpressions];
+    NSArray *defaultEmoticons = [self loadDefaultEmoticon];
+    [array addObjectsFromArray:wechatEmoticons];
+    [array addObjectsFromArray:defaultEmoticons];
+    return array;
+}
+
 + (NSMutableString *)mutableStringWithText:(NSString *)str {
-    NSArray *arrEmoji = [JXEmotionEscape loadExpressions];
+    NSArray *arrEmoji = [JXEmotionEscape loadAllExpressions];
     //正则匹配要替换的文字的范围
     NSString *pattern = @"\[\\[\u4e00-\u9fa5A-Za-z]{2,4}\\]";
     NSError *error = nil;
@@ -197,7 +212,7 @@
 + (NSAttributedString *)attributedEmojiStringWithText:(NSString *)str {
     NSMutableAttributedString *attributedString =
     [[NSMutableAttributedString alloc] initWithString:str];
-    NSArray *arrEmoji = [JXEmotionEscape loadExpressions];
+    NSArray *arrEmoji = [self loadAllExpressions];
     //正则匹配要替换的文字的范围
     //正则表达式
     static NSString *pattern =
@@ -210,7 +225,9 @@
             @":showlove|/:heart|/:break|/:cake|/:li|/:bome|/:kn|/:footb|/:ladybug|/"
             @":shit|/:moon|/:sun|/:gift|/:hug|/:strong|/:weak|/:share|/:v|/:@\\)|/"
             @":jj|/:@@|/:bad|/:lvu|/:no|/:ok|/:love|/:<L>|/:jump|/:shake|/:<O>|/"
-            @":circle|/:kotow|/:turn|/:skip|/:oY|/:#-0|/:hiphot|/:kiss|/:<&|/:&>";
+            @":circle|/:kotow|/:turn|/:skip|/:oY|/:#-0|/:hiphot|/:kiss|/:<&|/:&>|"
+            @"\\[[a-zA-Z0-9;:<@#\\{\\}\\*\\'\\|\\+\\^\\-\\$\\(\\)\\u4e00-\\u9fa5]+\\]";
+    
     NSError *error = nil;
     NSRegularExpression *re =
             [NSRegularExpression regularExpressionWithPattern:pattern

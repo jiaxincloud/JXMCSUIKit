@@ -355,6 +355,10 @@
 - (void)updateMessageStatus {
     [super updateMessageStatus];
     self.hasRead.hidden = YES;
+    if (self.bubbleView.unReadView) { // 语音消息的未读提示
+        self.bubbleView.unReadView.hidden = self.message.isRead;
+    }
+    
     switch (self.message.status) {
         case JXMessageStatusDownloading: {
             if (self.message.direction == JXMessageDirectionReceive) {

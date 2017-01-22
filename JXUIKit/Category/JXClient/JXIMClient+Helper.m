@@ -9,12 +9,13 @@
 
 @implementation JXIMClient (Helper)
 
+// 已废弃
 - (void)clientApplication:(UIApplication *)application
         didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
                                appkey:(NSString *)appkey
                          apnsCertName:(NSString *)apnsCertName {
     [self setupAppDelegateToClient];
-    [self registerAPNS];
+    [self registerAPNSWithDelegate:application.delegate];
 
     if (!appkey.length) {
         return;
@@ -25,16 +26,29 @@
     }
 }
 
+- (void)initializeSDKWithAppKey:(NSString *)key andUserNotificationCenterDelegate:(id)delegate {
+    [self setupAppDelegateToClient];
+    [self registerAPNSWithDelegate:delegate];
+    
+    if (!key.length) {
+        return;
+    }
+    JXError *error = [self registerSDKWithAppKey:key];
+    if (error) {
+        [sJXHUD showMessage:[error getLocalDescription] duration:1.4];
+    }
+}
+
 #pragma mark - register apns
 
-- (void)registerAPNS {
+- (void)registerAPNSWithDelegate:(id)delegate {
     UIApplication *application = [UIApplication sharedApplication];
     application.applicationIconBadgeNumber = 0;
 
 #if !TARGET_IPHONE_SIMULATOR
     if (IOSVersion >= 10.0) {    // iOS10
         UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
-        center.delegate = self;
+        center.delegate = delegate;
         [center requestAuthorizationWithOptions:(UNAuthorizationOptionBadge |
                                                  UNAuthorizationOptionSound |
                                                  UNAuthorizationOptionAlert)
@@ -59,14 +73,14 @@
 #endif
 }
 
-#pragma mark - UNUserNotificationCenterDelegate
-
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center
-didReceiveNotificationResponse:(UNNotificationResponse *)response
-         withCompletionHandler:(void (^)())completionHandler {
-    // FIXME:iOS10 点击调用通知调用该方法
-    completionHandler();
-}
+//#pragma mark - UNUserNotificationCenterDelegate
+//
+//- (void)userNotificationCenter:(UNUserNotificationCenter *)center
+//didReceiveNotificationResponse:(UNNotificationResponse *)response
+//         withCompletionHandler:(void (^)())completionHandler {
+//    // FIXME:iOS10 点击调用通知调用该方法
+//    completionHandler();
+//}
 
 #pragma mark - app delegate notifications
 
